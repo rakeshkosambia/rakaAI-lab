@@ -1,0 +1,10 @@
+Sample workspace file for the lessons.
+
+Project: Orders service upgrade
+Status: in progress
+Open items:
+- Review the retry settings in the payment client
+- Confirm the batch job still runs on the new runtime
+- Update the deployment checklist
+
+Quarterly volumes (units): Q1 1250, Q2 1400, Q3 1310, Q4 1620

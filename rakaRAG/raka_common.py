@@ -15,7 +15,11 @@ ROOT = Path(__file__).resolve().parent
 CORPUS_DIR = ROOT / "corpus"
 QUESTIONS_FILE = ROOT / "questions.json"
 
+CORPUS_LARGE_DIR = ROOT / "corpus_large"
+QUESTIONS_V2_FILE = ROOT / "questions_v2.json"
+
 QUESTION_TYPES = ("local", "global")
+QUESTION_STYLES = ("keyword", "paraphrase")  # optional field: does the question reuse the answer's words?
 
 STOPWORDS = frozenset(
     "a an and are as at be by for from has have in into is it its of on or so that the their then "
@@ -58,6 +62,11 @@ def load_corpus(corpus_dir: Path | str | None = None) -> list[Doc]:
     return docs
 
 
+def load_corpus_v2() -> list[Doc]:
+    """The original 10 documents plus the 14 in corpus_large, sorted by id (24 in all)."""
+    return sorted(load_corpus() + load_corpus(CORPUS_LARGE_DIR), key=lambda d: d.id)
+
+
 def load_questions(path: Path | str | None = None) -> list[dict]:
     return json.loads(Path(path or QUESTIONS_FILE).read_text(encoding="utf-8"))
 
@@ -77,6 +86,8 @@ def validate_questions(questions: list[dict], docs: list[Doc]) -> list[str]:
         seen.add(qid)
         if q.get("type") not in QUESTION_TYPES:
             problems.append(f"{qid}: type must be one of {QUESTION_TYPES}")
+        if "style" in q and q["style"] not in QUESTION_STYLES:
+            problems.append(f"{qid}: style must be one of {QUESTION_STYLES}")
         gold = q.get("gold_docs") or []
         if not gold:
             problems.append(f"{qid}: gold_docs is empty")

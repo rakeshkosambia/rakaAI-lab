@@ -1,0 +1,3 @@
+# Multi-agent orchestration
+
+In an orchestrated system one coordinating agent splits a job into pieces, hands each piece to a worker agent and gathers what comes back. Workers can run in parallel, and they share a task list so that work is not done twice. The messages passed between agents are called handoffs, and each should say what is needed and what form the answer should take. If one worker fails the coordinator must decide whether to retry, reassign or give up. A subagent is the simplest form of this pattern. The cost is that every worker makes its own model calls, so total spend multiplies.

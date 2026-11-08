@@ -1,0 +1,3 @@
+# Human approval
+
+Some actions are too risky to leave to the agent alone, such as sending money, deleting data or messaging a customer. For these the run pauses and asks a person to approve. The request must show exactly what will happen and why the agent wants it. If nobody answers before the timeout, the safe default is to deny. Approvals should be rare, because a person who approves everything has stopped reading. Every decision is written to an audit log with who decided, when and what they saw. Approval is one of the permission outcomes: a rule can allow, deny or ask, and asking is what triggers this pause.

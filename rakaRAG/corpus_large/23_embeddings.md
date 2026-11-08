@@ -1,0 +1,3 @@
+# Embeddings and vector search
+
+An embedding model turns a piece of text into a list of numbers, a vector, so that texts with similar meaning get vectors that lie close together. A vector database finds the nearest vectors to the question. This helps when the question and the answer use different words, which keyword search cannot handle. The same embedding model must be used to index the documents and to embed the question, and changing the model means re-embedding every chunk. Embedding costs money per token, and vectors take storage. Search by meaning can also return text that is only loosely related, so results are often checked by a reranker.

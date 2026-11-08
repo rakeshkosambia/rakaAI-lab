@@ -34,6 +34,26 @@ LEXICON = [
     ("Gateway", "service", r"\bgateway\b"),
     ("Audit Log", "artifact", r"\baudit logs?\b|\baudit trail\b"),
 ]
+# Terms from the 14 documents in corpus_large, for r07. A separate list so r00 to r06 keep their numbers.
+LEXICON_V2 = LEXICON + [
+    ("Guardrail", "mechanism", r"\bguardrails?\b"),
+    ("Human Approval", "mechanism", r"\bapprov(?:al|als|e)\b"),
+    ("Sandbox", "mechanism", r"\bsandbox(?:es|ing)?\b"),
+    ("Retry", "technique", r"\bretr(?:y|ies)\b|\bbackoff\b"),
+    ("Rate Limit", "concept", r"\brate limits?\b"),
+    ("Prompt Cache", "technique", r"\bprompt cach(?:e|ing)\b|\bcache\b"),
+    ("Trace", "artifact", r"\btraces?\b"),
+    ("Evaluation", "technique", r"\bevaluat(?:ion|ed)\b"),
+    ("Orchestrator", "mechanism", r"\borchestrat\w*|\bcoordinating agent\b"),
+    ("Plan", "artifact", r"\bplan\b"),
+    ("Checkpoint", "artifact", r"\bcheckpoints?\b"),
+    ("Queue", "mechanism", r"\bqueues?\b"),
+    ("Scheduler", "mechanism", r"\bscheduler\b"),
+    ("Secret", "artifact", r"\bsecrets?\b|\bcredentials?\b"),
+    ("Reranker", "technique", r"\brerank\w*"),
+    ("Vector Search", "technique", r"\bvectors?\b|\bvector database\b"),
+    ("Worker", "mechanism", r"\bworkers?\b"),
+]
 VERBS = [
     (r"\bprotect", "protects"), (r"\bblock", "blocks"), (r"\blimit", "limits"), (r"\bload", "loads"),
     (r"\bsummaris|\bshrink", "shrinks"), (r"\bsave|\bwrite|\bkeep|\bstore", "stores"), (r"\bstart", "starts"),
@@ -61,7 +81,8 @@ def _short(sentence: str, limit: int = 160) -> str:
 class FakeExtractor:
     """Callable like a model: fake(prompt) -> answer text. Deterministic."""
 
-    def __init__(self, faults: tuple[str, ...] = (), max_entities: int = 6):
+    def __init__(self, faults: tuple[str, ...] = (), max_entities: int = 6, lexicon=None):
+        self.lexicon = LEXICON if lexicon is None else lexicon
         unknown = set(faults) - set(FAULTS)
         if unknown:
             raise ValueError(f"unknown fault(s): {sorted(unknown)}; choose from {FAULTS}")
@@ -78,7 +99,7 @@ class FakeExtractor:
         per_sentence: list[list[tuple[int, str]]] = []
         for sentence in sentences:
             hits = []
-            for name, etype, pattern in LEXICON:
+            for name, etype, pattern in self.lexicon:
                 m = re.search(pattern, sentence, re.I)
                 if m:
                     hits.append((m.start(), name))
@@ -158,7 +179,8 @@ class FakeKeywordModel:
     NOT intelligent. Deterministic. Faults can be injected to prove the validator and the fallback work.
     """
 
-    def __init__(self, fault: str | None = None):
+    def __init__(self, fault: str | None = None, lexicon=None):
+        self.lexicon = LEXICON if lexicon is None else lexicon
         if fault is not None and fault not in KEYWORD_FAULTS:
             raise ValueError(f"unknown fault {fault!r}; choose from {KEYWORD_FAULTS}")
         self.fault = fault
@@ -173,7 +195,7 @@ class FakeKeywordModel:
         match = re.search(r"---Question---\n(.*?)\n---Output---", prompt, re.S)
         question = match.group(1) if match else ""
         low, covered = [], []
-        for name, _etype, pattern in LEXICON:
+        for name, _etype, pattern in self.lexicon:
             m = re.search(pattern, question, re.I)
             if m:
                 low.append((m.start(), name))

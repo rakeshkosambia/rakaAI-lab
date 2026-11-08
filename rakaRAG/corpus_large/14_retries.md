@@ -1,0 +1,3 @@
+# Retries and rate limits
+
+Model services return errors when too many requests arrive or when they are overloaded. The usual answer is to retry after waiting, with the wait doubling each time, called exponential backoff. Adding a random jitter stops many clients from retrying at the same instant. Attempts must be capped, or a broken service traps the agent in a loop. A retry is only safe when the action can be repeated without harm, so a tool that charges money needs a unique request key. A budget hook should count retries as well as successful calls. A circuit breaker stops calling a service that keeps failing and tries again later.

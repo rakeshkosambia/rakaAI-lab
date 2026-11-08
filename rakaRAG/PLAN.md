@@ -59,6 +59,7 @@ Does graph + vector retrieval beat plain keyword search and vector-only search o
 | # | Item | Risk |
 |---|---|---|
 | 1 | Chunkers read for r02 (done 2026-11-08). `operate.py` extraction and validation read for r03 (done 2026-11-08). Node merge read for r04 (done 2026-11-08). Query functions read for r05 (done 2026-11-08). Deletion and rebuild read for r06 (done 2026-11-08) | Low |
-| 2 | Choose the live model and embedder for r08 and set a spend cap | Medium |
+| 2 | Choose the live model and embedder for r08 and set a spend cap. r07 estimates indexing at about 15,600 tokens in and 6,000 out for 24 documents, before any answer generation | Medium |
 | 3 | Pick a licence for the lab's original folders (README says none chosen yet) | Low |
 | 4 | Whether to link rakaRAG from b10 (Knowledge and RAG) in learn-aws-bedrock | Low |
+| 5 | Write 15 or more paraphrase questions blind to the documents (a person, or a model shown only topics) as `questions_v3.json`; r07 showed the v2 paraphrases still share 58% of their words with the answers | Medium |

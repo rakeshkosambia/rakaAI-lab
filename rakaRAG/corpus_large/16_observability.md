@@ -1,0 +1,3 @@
+# Observability
+
+To understand an agent run you need a trace. Each model call and each tool call is recorded with an id, a start time, a duration and the number of tokens used. Records nest: an agent turn contains a model call, which contains tool calls. With traces you can find the slow step, the costly step and the step that failed. Hooks are the natural place to emit them because they see every call. Traces often contain personal data, so sensitive values must be redacted before they are stored. A dashboard that shows token use per run helps a team notice an agent that is spending too much.

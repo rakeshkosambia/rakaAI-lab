@@ -1,0 +1,7 @@
+{
+ "about": "Hashes of the r07 test set, taken before the first r07 run. Line endings are normalised to LF before hashing. Changing either file after seeing results means this file must be changed too, which git will show.",
+ "corpus_large_files": 14,
+ "corpus_large_sha256": "a4fb7a5ee2905d963316e0650f1e7159a77785dad3ded5f12c83b91ed021f96e",
+ "frozen_on": "2026-11-08",
+ "questions_v2_sha256": "6be3e5ab0202ecb8f8d9fe84bcf35fe50c6a92a0e0dcf4c0ab829e9bced559e3"
+}

@@ -1,0 +1,3 @@
+# Prompt caching
+
+Every model call repeats the same opening text: the system instructions and the tool definitions. Prompt caching lets the service remember that opening part, so repeated calls cost less and start faster. The cache only matches an identical prefix, so stable content must come first and anything that changes, such as the current time, must come last. Editing the start of the prompt invalidates the cache for everything after it. Context compaction rewrites the history and therefore breaks the cache, which is a hidden cost of compaction. Teams should watch the cache hit rate as a metric.

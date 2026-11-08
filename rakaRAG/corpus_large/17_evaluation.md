@@ -1,0 +1,3 @@
+# Evaluation
+
+An evaluation set is a fixed list of tasks, each with a known good outcome. A run is scored by simple checks or by an independent judge model. The set is run after every change to the prompt, the tools or the model, so a regression is caught before users meet it. The questions must be written before the results are seen, and never edited to make a method look better. Scores from a small set are noisy, so report how many tasks there were and how much the result could vary. A retrieval system is evaluated the same way: a list of questions with the documents that contain each answer.

@@ -1,0 +1,3 @@
+# Checkpoints
+
+A checkpoint is a saved copy of the run state after a step: the conversation, the plan and the list of changes made. If the program crashes or the machine restarts, the run resumes from the last checkpoint instead of starting again. Resuming is only safe if steps are idempotent, meaning repeating one gives the same result, or if the checkpoint records which steps already happened. A workflow engine can provide this: it stores each step result and replays them after a failure. Checkpoints cost storage and some time, so they are taken at meaningful boundaries and not after every token.

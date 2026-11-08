@@ -1,0 +1,3 @@
+# Guardrails
+
+A guardrail checks text against rules, such as blocked topics, personal data or unsafe instructions. One check runs on the input before the model sees it, and another on the output before the user sees it. Guardrails differ from permissions: permissions decide whether a tool call may run, while guardrails judge the words going in and out. A hook can call a guardrail service on every turn. Rules that are too strict block honest requests, so a guardrail needs a measured false positive rate and a way for people to report mistakes. A guardrail reduces risk but does not remove it, so it sits alongside permissions and sandboxing and does not replace them.

@@ -18,7 +18,7 @@ Does graph plus vector retrieval beat plain keyword search and vector-only searc
 | r03 | Entity and relation extraction: prompt, fake model, independent validator | built, tested offline |
 | r04 | Graph store and entity merge: normalised keys, declared aliases, per-chunk mentions, summaries, save/load | built, tested offline |
 | r05 | Query modes: naive, local, global, hybrid, mix; keyword validation, fallback, optional rerank; retrieval scored | built, tested offline |
-| r06 | Incremental add and delete | planned |
+| r06 | Incremental add, update, delete; extraction cache; rollback on failure; consistency check; save and load | built, tested offline |
 | r07 | Evaluation on a bigger, harder test set; cost per document | planned |
 | r08 | Live run with a real model, small corpus, spend cap | planned |
 
@@ -33,6 +33,7 @@ python r02_chunking/code.py --offline
 python r03_extraction/code.py --offline
 python r04_graph/code.py --offline
 python r05_query_modes/code.py --offline
+python r06_incremental/code.py --offline
 ```
 
 Windows wrappers: `run.bat r01_baselines --offline` and `test.bat` (tests need `pip install -r requirements-dev.txt`).

@@ -169,6 +169,45 @@ class KnowledgeGraph:
         for extraction in extractions:
             self.add_extraction(extraction)
 
+    def remove_chunk(self, chunk_id: str) -> dict:
+        """Forget everything one chunk contributed. A node or edge with no mentions left is deleted; one that
+        still has other chunks behind it is kept (its type, descriptions and weight recompute on their own).
+        A kept item loses its summary, because the summary no longer matches its mentions.
+
+        Returns {nodes_deleted, nodes_rebuilt, edges_deleted, edges_rebuilt, edges_orphaned, summaries_cleared}.
+        """
+        report = {"nodes_deleted": [], "nodes_rebuilt": [], "edges_deleted": [], "edges_rebuilt": [],
+                  "edges_orphaned": [], "summaries_cleared": 0}
+        for key in sorted(self.nodes):
+            node = self.nodes[key]
+            if chunk_id not in node.mentions:
+                continue
+            del node.mentions[chunk_id]
+            if not node.mentions:
+                del self.nodes[key]
+                report["nodes_deleted"].append(key)
+            else:
+                report["summaries_cleared"] += node.summary is not None
+                node.summary = None
+                report["nodes_rebuilt"].append(key)
+        for ek in sorted(self.edges):
+            edge = self.edges[ek]
+            if chunk_id not in edge.mentions:
+                continue
+            del edge.mentions[chunk_id]
+            if not edge.mentions:
+                del self.edges[ek]
+                report["edges_deleted"].append("|".join(ek))
+            else:
+                report["summaries_cleared"] += edge.summary is not None
+                edge.summary = None
+                report["edges_rebuilt"].append("|".join(ek))
+        for ek in sorted(self.edges):  # defensive: an edge must never point at a node that no longer exists
+            if ek[0] not in self.nodes or ek[1] not in self.nodes:
+                del self.edges[ek]
+                report["edges_orphaned"].append("|".join(ek))
+        return report
+
     # ---------------------------------------------------------------- reading
     def neighbours(self, name: str) -> list[str]:
         key = self.resolve(name)

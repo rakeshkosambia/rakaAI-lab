@@ -141,3 +141,9 @@ class FakeExtractor:
                 lines = [l for l in lines if l != DONE]
             last = len(lines) - 1
         return lines
+
+
+def fake_summarize(name: str, descriptions: list[str]) -> str:
+    """A stand-in summarizer: the two shortest distinct fragments, joined. Deterministic; NOT a real summary."""
+    shortest = sorted(set(descriptions), key=lambda d: (len(d), d))[:2]
+    return " ".join(shortest)

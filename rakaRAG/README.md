@@ -14,7 +14,7 @@ Does graph plus vector retrieval beat plain keyword search and vector-only searc
 |---|---|---|
 | r00 | Setup, test corpus, question list with known answers | built, tested offline |
 | r01 | Baselines: keyword (BM25) and vector-only search, scored | built, tested offline |
-| r02 | Chunking | planned |
+| r02 | Chunking: whole, fixed window, recursive; every chunk keeps its source span | built, tested offline |
 | r03 | Entity and relation extraction with output validation | planned |
 | r04 | Graph store and entity merge | planned |
 | r05 | Query modes: local, global, hybrid, mix | planned |
@@ -29,6 +29,7 @@ Offline needs only Python 3.10+ and no packages.
 ```
 python r00_setup/code.py --offline
 python r01_baselines/code.py --offline
+python r02_chunking/code.py --offline
 ```
 
 Windows wrappers: `run.bat r01_baselines --offline` and `test.bat` (tests need `pip install -r requirements-dev.txt`).

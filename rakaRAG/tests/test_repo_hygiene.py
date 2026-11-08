@@ -38,7 +38,7 @@ def test_no_secrets_in_any_file():
 def test_no_email_addresses_in_the_corpus_or_questions():
     email = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
     offenders = [str(p.relative_to(ROOT)) for p in list((ROOT / "corpus").glob("*.md")) + list((ROOT / "corpus_large").glob("*.md"))
-                 + [ROOT / "questions.json", ROOT / "questions_v2.json"]
+                 + [ROOT / "questions.json", ROOT / "questions_v2.json", ROOT / "questions_v3.json"]
                  if email.search(p.read_text(encoding="utf-8"))]
     assert not offenders, offenders
 

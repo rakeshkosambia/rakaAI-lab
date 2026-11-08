@@ -77,6 +77,16 @@ def check_frozen(frozen_file: Path | str | None = None) -> list[str]:
     return [f"{key} changed since it was frozen" for key in now if now[key] != recorded.get(key)]
 
 
+QUESTIONS_V3_FILE = ROOT / "questions_v3.json"
+
+
+def check_frozen_v3(frozen_file: Path | str | None = None, questions_file: Path | str | None = None) -> list[str]:
+    """Same idea for the r08 questions: problems if they changed after being frozen (empty = untouched)."""
+    recorded = json.loads(Path(frozen_file or ROOT / "r08_live" / "FROZEN.json").read_text(encoding="utf-8"))
+    now = hashlib.sha256(_normalised_bytes(Path(questions_file or QUESTIONS_V3_FILE))).hexdigest()
+    return [] if now == recorded.get("questions_v3_sha256") else ["questions_v3_sha256 changed since it was frozen"]
+
+
 # ---------------------------------------------------------------- a random baseline
 class RandomRetriever:
     """Ranks all chunks in a seeded random order per question. The floor every method must beat."""

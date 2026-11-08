@@ -1,0 +1,6 @@
+{
+ "about": "Hash of the r08 question set, taken before any live run and before BM25 was run on these questions. Line endings are normalised to LF. Changing the questions means changing this file, which git will show.",
+ "frozen_on": "2026-11-08",
+ "questions": 15,
+ "questions_v3_sha256": "097a6e5bb24c82f6e6e5b88be5d718fe5ab9003768ac446ea55d01b49af97cce"
+}

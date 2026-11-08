@@ -94,7 +94,10 @@ class Context:
 
 class Retriever:
     def __init__(self, chunks: list[ck.Chunk], graph: KnowledgeGraph, keyword_model=None,
-                 top_entities: int = 5, top_edges: int = 6, naive_pool: int = 6):
+                 top_entities: int = 5, top_edges: int = 6, naive_pool: int = 6, chunk_search=None):
+        """chunk_search(question, k) -> chunk ids, best first. Replaces BM25 for the plain-chunk part of
+        `naive` and `mix` (r08 passes real embedding search here). Default: BM25 over the chunks."""
+        self.chunk_search = chunk_search
         self.chunks = {c.id: c for c in chunks}
         self.graph = graph
         self.keyword_model = keyword_model
@@ -138,8 +141,14 @@ class Retriever:
             self._global(ctx, votes)
         scores = dict(zip(self.chunk_index.ids, self.chunk_index.scores(question)))
         if mode in ("naive", "mix"):
-            for chunk_id, _ in self.chunk_index.search(question, k=self.naive_pool):
+            if self.chunk_search is not None:
+                pool = list(self.chunk_search(question, self.naive_pool))[: self.naive_pool]
+            else:
+                pool = [chunk_id for chunk_id, _ in self.chunk_index.search(question, k=self.naive_pool)]
+            for rank, chunk_id in enumerate(pool):
                 votes[chunk_id] = votes.get(chunk_id, 0) + 1
+                if self.chunk_search is not None:
+                    scores[chunk_id] = float(len(pool) - rank)  # keep the injected search's own order as the tie-break
         known = {cid: v for cid, v in votes.items() if cid in self.chunks}
         ctx.missing_sources = len(votes) - len(known)
         if rerank:

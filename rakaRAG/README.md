@@ -20,7 +20,7 @@ Does graph plus vector retrieval beat plain keyword search and vector-only searc
 | r05 | Query modes: naive, local, global, hybrid, mix; keyword validation, fallback, optional rerank; retrieval scored | built, tested offline |
 | r06 | Incremental add, update, delete; extraction cache; rollback on failure; consistency check; save and load | built, tested offline |
 | r07 | Evaluation: 24 documents, 39 questions, random floor, bootstrap intervals, cost, frozen test set, predictions scored | built, tested offline |
-| r08 | Live run with a real model, small corpus, spend cap | planned |
+| r08 | Live proof of concept on Amazon Bedrock under a 20,000-token cap: guard, plan, smoke test, staged pipeline, 15 new questions | built and tested offline; **live run not yet done** |
 
 ## Quick start
 
@@ -35,6 +35,7 @@ python r04_graph/code.py --offline
 python r05_query_modes/code.py --offline
 python r06_incremental/code.py --offline
 python r07_evaluation/code.py --offline
+python r08_live/code.py --plan      # token plan; the live run is described in r08_live/README.md
 ```
 
 Windows wrappers: `run.bat r01_baselines --offline` and `test.bat` (tests need `pip install -r requirements-dev.txt`).
@@ -43,7 +44,7 @@ Windows wrappers: `run.bat r01_baselines --offline` and `test.bat` (tests need `
 
 - **Chapters r00 to r05** use 10 short documents and 12 questions written together; BM25 scores about 1.00 on them, so they only prove the harness works.
 - **r07** adds 14 documents and 27 questions (24 documents, 39 questions in all), a random floor, 95% bootstrap intervals and cost. Result: with the offline fake models, every graph mode scores clearly lower than plain keyword search on the paraphrase questions and costs about 9 times the prompt words plus a model call per question. Five of eight pre-registered predictions held; three were wrong, and one wrong one shows the "paraphrase" questions are less hard than labelled (they share 58% of their words with the answers).
-- **Not yet known:** how a real model and real embeddings behave. Everything offline is lexical, so it cannot test paraphrase fairly. That is r08, which needs a model, a spend cap and a better paraphrase set written blind to the documents.
+- **Not yet known:** how a real model and real embeddings behave. Everything offline is lexical, so it cannot test paraphrase fairly. That is r08: the code, a 20,000-token guard, 15 new questions (built from the sparring-partner-ooda concepts, sharing only 29% of their words with the answers) and the predictions are done and tested offline. The live run itself has not happened yet; see `r08_live/README.md`. For what can honestly be said about the project today, see `SHOWCASE.md`.
 
 ## Data rules
 

@@ -1,0 +1,3 @@
+# Permissions
+
+Permissions decide whether a requested tool call may run. A rule can allow, deny or ask the user. Read-only tools are usually allowed; tools that write files or run commands need a stricter rule. Deny rules win over allow rules. Permissions protect the user from mistakes by the model, and they protect the model from prompts hidden in untrusted text. Asking the user too often causes approval fatigue, so rules should be specific. In the cloud version of this course the same idea is expressed with IAM roles that give the agent only the access it needs. Hooks can add checks the permission rules cannot express.

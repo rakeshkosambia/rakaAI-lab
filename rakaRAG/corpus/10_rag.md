@@ -1,0 +1,3 @@
+# Retrieval augmented generation
+
+Retrieval augmented generation, or RAG, answers a question using text fetched from a collection of documents instead of relying on the model's memory alone. Documents are split into chunks. The system finds the chunks that best match the question, either by keyword scoring such as BM25 or by comparing embedding vectors, and puts them in the prompt. Answers can then cite their sources. Plain chunk search struggles with questions that need facts from several documents, because the relevant chunks may not look similar to the question. Graph based RAG adds a network of entities and relations built from the documents to help with those questions. A RAG system should be scored on a fixed list of questions with known answers.

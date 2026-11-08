@@ -1,0 +1,2 @@
+# Offline chapters (r00 to r07) use only the Python standard library.
+# The live run (r08) will add its model client here when it is built.

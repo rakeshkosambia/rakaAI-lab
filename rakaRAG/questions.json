@@ -1,0 +1,14 @@
+[
+  {"id": "q01", "type": "local", "question": "What does a pre-tool hook do?", "gold_docs": ["04_hooks"], "expect": ["block a call", "change its input"]},
+  {"id": "q02", "type": "local", "question": "Which rule wins when allow and deny rules conflict?", "gold_docs": ["03_permissions"], "expect": ["deny"]},
+  {"id": "q03", "type": "local", "question": "What is MCP and what does a server announce?", "gold_docs": ["09_mcp"], "expect": ["standard", "tools it offers"]},
+  {"id": "q04", "type": "local", "question": "When should compaction be triggered?", "gold_docs": ["06_context_compaction"], "expect": ["token count", "close to the limit"]},
+  {"id": "q05", "type": "local", "question": "What does a subagent return to its parent?", "gold_docs": ["05_subagents"], "expect": ["short summary"]},
+  {"id": "q06", "type": "local", "question": "How are skills kept out of the prompt until they are needed?", "gold_docs": ["08_skills"], "expect": ["name and one-line description", "loaded when"]},
+  {"id": "q07", "type": "local", "question": "Why must a tool description be written carefully?", "gold_docs": ["02_tools"], "expect": ["chooses tools from the text"]},
+  {"id": "q08", "type": "local", "question": "What stops an endless agent loop?", "gold_docs": ["01_agent_loop"], "expect": ["turn limit"]},
+  {"id": "q09", "type": "global", "question": "Which mechanisms keep the context window small?", "gold_docs": ["05_subagents", "06_context_compaction", "08_skills"], "expect": ["subagents", "compaction", "skill loading"]},
+  {"id": "q10", "type": "global", "question": "How do permissions, hooks and MCP together keep tool use safe?", "gold_docs": ["03_permissions", "04_hooks", "09_mcp"], "expect": ["permissions say yes or no", "hooks add custom checks", "untrusted"]},
+  {"id": "q11", "type": "global", "question": "What should happen to important facts before old turns are summarised away?", "gold_docs": ["06_context_compaction", "07_memory"], "expect": ["saved to memory"]},
+  {"id": "q12", "type": "global", "question": "How does the cloud version of this course handle access limits, memory and tool gateways?", "gold_docs": ["03_permissions", "07_memory", "09_mcp"], "expect": ["IAM roles", "DynamoDB", "gateway"]}
+]

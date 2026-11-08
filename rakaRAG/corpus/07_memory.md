@@ -1,0 +1,3 @@
+# Memory
+
+Memory lets an agent keep facts across separate runs. A simple memory is a file of short notes that is read at the start of a run and appended to when something worth keeping is learned. Good memories are small, dated and sourced, and a stale memory should be corrected or deleted rather than trusted. Memory differs from the conversation: the conversation lasts for one run, memory lasts between runs. Before compaction discards old turns, the agent can write the key facts to memory. Large memories need search rather than loading everything, which leads to retrieval augmented generation. In the cloud course, memory can live in DynamoDB, in S3 or in a managed memory service.

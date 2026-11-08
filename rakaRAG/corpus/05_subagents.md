@@ -1,0 +1,3 @@
+# Subagents
+
+A subagent is a second agent loop started by the first one to do a focused job. It begins with a fresh, empty conversation and returns only a short summary to the parent. This protects the parent's context window: the many search results and file reads the subagent produced never enter the parent's conversation. A subagent can be given fewer tools than the parent, which limits its reach. Work that is independent can run in several subagents at once. The cost is extra model calls and the risk that the summary leaves out something important. Subagents are one of three ways to keep context small, along with context compaction and skill loading.

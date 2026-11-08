@@ -1,0 +1,3 @@
+# Tools
+
+A tool is a named action the model may request, described by a name, a short description and a JSON schema for its input. The model never runs a tool itself; it only asks, and the program decides whether to run it. Good tool descriptions matter because the model chooses tools from the text alone. Tool results are returned as messages so the model can read them. File tools should be limited to one working folder. Every tool call passes through the permission check before it runs, and hooks can observe or block the call. The Model Context Protocol offers a standard way to publish tools from separate servers.

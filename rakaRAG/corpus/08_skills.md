@@ -1,0 +1,3 @@
+# Skills
+
+A skill is a folder of instructions for one kind of job, such as a checklist for reviewing a change request. Only the skill's name and one-line description are kept in the prompt at the start. The full text is loaded when the model decides the skill is needed. This keeps the context window small while still offering many specialised procedures. A skill is plain text, so it is easy to review and version. Skills can be loaded from a local folder or from object storage. Loading on demand is the third way to protect context, next to subagents and compaction. A skill is advice for the model, not a security control: permissions and hooks still apply to whatever it does.

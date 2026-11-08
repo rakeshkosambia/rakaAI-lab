@@ -1,0 +1,3 @@
+# Hooks
+
+A hook is code that runs at a fixed point in the loop, such as before a tool call, after a tool call or when a run ends. A pre-tool hook can block a call or change its input. A post-tool hook can log the result or scan it. Hooks keep policy outside the model, so a rule such as a token budget or a blocked command list is enforced even if the model ignores instructions. A budget hook counts tokens across the run and stops the loop when the limit is reached. Hooks are the place for audit logs, because they see every call. Permissions and hooks work together: permissions say yes or no, hooks add custom checks.

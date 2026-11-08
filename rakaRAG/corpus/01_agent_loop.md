@@ -1,0 +1,3 @@
+# The agent loop
+
+An agent is a loop around a language model. The program sends the conversation to the model. If the model asks for a tool, the program runs the tool, appends the result to the conversation and calls the model again. When the model answers without asking for a tool, the loop ends. The loop itself never changes; every other mechanism in this lab attaches around it. A turn limit stops a loop that never finishes. The conversation list is the only state the loop carries, so its size decides how long a run can last. See context compaction for what happens when that list grows too large.

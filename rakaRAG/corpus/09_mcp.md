@@ -1,0 +1,3 @@
+# Model Context Protocol
+
+The Model Context Protocol, or MCP, is a standard for connecting an agent to tools and data kept in separate servers. A server announces the tools it offers; the agent lists them and calls them with the same loop as any local tool. MCP lets one tool server serve many agents and keeps credentials inside the server instead of inside the agent. An agent should treat tools from an unfamiliar server as untrusted: permissions still apply, and tool descriptions can contain misleading text. A gateway service can sit in front of many servers to apply one set of access rules and keep an audit trail.

@@ -1,0 +1,3 @@
+# Context compaction
+
+The conversation grows with every turn until it no longer fits the model's context window. Compaction shrinks it. Cheap steps come first: replace old tool results with a short placeholder. If that is not enough, ask the model to summarise the older turns and keep the summary plus the most recent turns. Compaction loses detail, so important facts should be saved to memory before they are summarised away. A good trigger is a token count close to the limit, checked before each model call. Compaction keeps one long run alive; subagents and skill loading avoid filling the window in the first place.

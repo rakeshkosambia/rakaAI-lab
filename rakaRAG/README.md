@@ -17,7 +17,7 @@ Does graph plus vector retrieval beat plain keyword search and vector-only searc
 | r02 | Chunking: whole, fixed window, recursive; every chunk keeps its source span | built, tested offline |
 | r03 | Entity and relation extraction: prompt, fake model, independent validator | built, tested offline |
 | r04 | Graph store and entity merge: normalised keys, declared aliases, per-chunk mentions, summaries, save/load | built, tested offline |
-| r05 | Query modes: local, global, hybrid, mix | planned |
+| r05 | Query modes: naive, local, global, hybrid, mix; keyword validation, fallback, optional rerank; retrieval scored | built, tested offline |
 | r06 | Incremental add and delete | planned |
 | r07 | Evaluation on a bigger, harder test set; cost per document | planned |
 | r08 | Live run with a real model, small corpus, spend cap | planned |
@@ -32,13 +32,14 @@ python r01_baselines/code.py --offline
 python r02_chunking/code.py --offline
 python r03_extraction/code.py --offline
 python r04_graph/code.py --offline
+python r05_query_modes/code.py --offline
 ```
 
 Windows wrappers: `run.bat r01_baselines --offline` and `test.bat` (tests need `pip install -r requirements-dev.txt`).
 
 ## Known limits of the current test set
 
-The 10 documents and 12 questions are small and were written together, so they share vocabulary. BM25 scores a perfect 1.00 on them. That means the current set cannot show a graph helping. Chapter r07 must add paraphrased questions (the right answer shares few words with the question), more documents, and questions that need facts from several documents. Until then, treat the numbers as a check that the scoring harness works, not as a result.
+The 10 documents and 12 questions are small and were written together, so they share vocabulary. BM25 scores a perfect 1.00 on them. That means the current set cannot show a graph helping (r05 confirms it: the graph modes do not beat plain search here, and cost much more). Chapter r07 must add paraphrased questions (the right answer shares few words with the question), more documents, and questions that need facts from several documents. Until then, treat the numbers as a check that the scoring harness works, not as a result.
 
 ## Data rules
 

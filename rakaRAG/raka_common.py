@@ -154,13 +154,14 @@ def evaluate(search, questions: list[dict], k: int = 3) -> dict:
     return {"k": k, "rows": rows, "summary": summary}
 
 
-def evaluate_chunk_retrieval(search, questions: list[dict], k: int = 3) -> dict:
+def evaluate_chunk_retrieval(search, questions: list[dict], k: int = 3, extra_words=None) -> dict:
     """Score a retriever that returns CHUNKS (anything with .doc_id and .text), best first.
 
     Takes the top k chunks and reports, per group (all / local / global):
       coverage  fraction of the gold documents that at least one of the k chunks comes from
       mrr       1 / rank of the first chunk that comes from a gold document
-      words     average number of words those k chunks would put in the prompt (a cost proxy)
+      words     average number of words those k chunks would put in the prompt (a cost proxy), plus
+                extra_words(question) if given (for example graph context sent next to the chunks)
     """
     rows = []
     for q in questions:
@@ -173,7 +174,7 @@ def evaluate_chunk_retrieval(search, questions: list[dict], k: int = 3) -> dict:
                 "type": q["type"],
                 "coverage": len(covered & set(gold)) / len(gold) if gold else 0.0,
                 "rr": next((1.0 / pos for pos, c in enumerate(chunks, 1) if c.doc_id in gold), 0.0),
-                "words": sum(len(c.text.split()) for c in chunks),
+                "words": sum(len(c.text.split()) for c in chunks) + (extra_words(q["question"]) if extra_words else 0),
             }
         )
 

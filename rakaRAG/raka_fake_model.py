@@ -147,3 +147,52 @@ def fake_summarize(name: str, descriptions: list[str]) -> str:
     """A stand-in summarizer: the two shortest distinct fragments, joined. Deterministic; NOT a real summary."""
     shortest = sorted(set(descriptions), key=lambda d: (len(d), d))[:2]
     return " ".join(shortest)
+
+
+KEYWORD_FAULTS = ("not_json", "missing_key", "wrong_type", "extra_key", "empty")
+
+
+class FakeKeywordModel:
+    """A stand-in keyword extractor. Low-level = known terms found in the question; high-level = the other content words.
+
+    NOT intelligent. Deterministic. Faults can be injected to prove the validator and the fallback work.
+    """
+
+    def __init__(self, fault: str | None = None):
+        if fault is not None and fault not in KEYWORD_FAULTS:
+            raise ValueError(f"unknown fault {fault!r}; choose from {KEYWORD_FAULTS}")
+        self.fault = fault
+        self.calls = 0
+
+    def __call__(self, prompt: str) -> str:
+        import json
+
+        import raka_common as rc
+
+        self.calls += 1
+        match = re.search(r"---Question---\n(.*?)\n---Output---", prompt, re.S)
+        question = match.group(1) if match else ""
+        low, covered = [], []
+        for name, _etype, pattern in LEXICON:
+            m = re.search(pattern, question, re.I)
+            if m:
+                low.append((m.start(), name))
+                covered.append(m.group(0).casefold())
+        low = [n for _, n in sorted(low)]
+        covered_tokens = {t for text in covered for t in rc.tokenize(text)}
+        high = []
+        for token in rc.tokenize(question):
+            if token not in covered_tokens and token not in high:
+                high.append(token)
+        payload = {"high_level_keywords": high, "low_level_keywords": low}
+        if self.fault == "not_json":
+            return "Sure! The keywords are hooks and tools."
+        if self.fault == "missing_key":
+            return json.dumps({"high_level_keywords": high})
+        if self.fault == "wrong_type":
+            return json.dumps({"high_level_keywords": "themes", "low_level_keywords": low})
+        if self.fault == "extra_key":
+            return json.dumps(dict(payload, notes="extra"))
+        if self.fault == "empty":
+            return json.dumps({"high_level_keywords": [], "low_level_keywords": []})
+        return json.dumps(payload)
